@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>BookHotels</title>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+<div class="navbar">BookHotels</div>
+
+<div class="wrapper">
+    <form>
+        <h1>Welcome Back</h1>
+        <div class="input-box">
+            <input type="email" placeholder="Email" required id="email">
+        </div>
+        <div class="input-box">
+            <input type="password" placeholder="Password" required id="password">
+        </div>
+        <div class="forgot">
+            <a href="#">Forgot password?</a>
+        </div>
+
+        <button type="button" class="btn" id="submit">Login</button>
+        <button type="button" class="qrcode" id="qrcode">Login usando QR Code</button>
+    </form>
+</div>
+
+<!-- SCRIPT: Firebase + QR -->
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyD84xiH2qKZ11AWIGKi4XfQbjAWDWvN1dY",
+        authDomain: "superid-turma2-4.firebaseapp.com",
+        databaseURL: "https://superid-turma2-4-default-rtdb.firebaseio.com",
+        projectId: "superid-turma2-4",
+        storageBucket: "superid-turma2-4.appspot.com",
+        messagingSenderId: "650939520911",
+        appId: "1:650939520911:web:algum_id_app_aqui"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const firestore = firebase.firestore();
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const qrButton = document.getElementById('qrcode');
+
+        qrButton.addEventListener('click', async function (event) {
+            event.preventDefault();
+
+            const tokenValue = Math.random().toString(36).substring(2, 15);
+            const qrValue = "superid-login:" + tokenValue;
+
+            await firestore.collection("login").doc(tokenValue).set({
+                createdAt: new Date().toISOString(),
+                used: false
+            });
+
+            const existingPopup = document.getElementById('qr-popup');
+            if (existingPopup) document.body.removeChild(existingPopup);
+
+            const popup = document.createElement('div');
+            popup.id = 'qr-popup';
+            popup.style.position = 'fixed';
+            popup.style.top = '50%';
+            popup.style.left = '50%';
+            popup.style.transform = 'translate(-50%, -50%)';
+            popup.style.padding = '30px 40px';
+            popup.style.backgroundColor = '#fff';
+            popup.style.borderRadius = '12px';
+            popup.style.boxShadow = '0 0 20px rgba(0, 0, 0, 0.3)';
+            popup.style.zIndex = '9999';
+            popup.style.textAlign = 'center';
+
+            const qrCodeImage = new Image();
+            qrCodeImage.src = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(qrValue)}&size=200x200`;
+            qrCodeImage.alt = 'QR Code';
+            qrCodeImage.style.marginBottom = '15px';
+
+            const instruction = document.createElement('p');
+            instruction.textContent = 'Escaneie com o app SuperID para fazer login';
+            instruction.style.fontSize = '16px';
+            instruction.style.marginBottom = '15px';
+
+            const closeButton = document.createElement('button');
+            closeButton.textContent = 'Fechar';
+            closeButton.className = 'btn';
+            closeButton.style.padding = '10px 20px';
+            closeButton.style.borderRadius = '8px';
+            closeButton.style.border = 'none';
+            closeButton.style.backgroundColor = '#333';
+            closeButton.style.color = '#fff';
+            closeButton.style.cursor = 'pointer';
+
+            closeButton.addEventListener('click', () => {
+                document.body.removeChild(popup);
+            });
+
+            popup.appendChild(qrCodeImage);
+            popup.appendChild(instruction);
+            popup.appendChild(closeButton);
+            document.body.appendChild(popup);
+        });
+    });
+</script>
+</body>
+</html>

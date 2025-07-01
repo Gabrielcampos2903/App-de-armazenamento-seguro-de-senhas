@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "650939520911",
+    "project_id": "superid-turma2-4",
+    "storage_bucket": "superid-turma2-4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:650939520911:android:a188902c0446f0df285dfa",
+        "android_client_info": {
+          "package_name": "com.example.superid"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZDrw33tmFV794uHAU02m9LKa8jMgzuy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

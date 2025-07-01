@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <style name="Theme.SuperID" parent="android:Theme.Material.Light.NoActionBar">
+
+    </style>
+
+
+
+        <style name="Theme.MySplashArt" parent="Theme.SuperID">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_art</item>
+        <item name="postSplashScreenTheme">@style/Theme.SuperID</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@android:color/white</item>
+    </style>
+
+</resources>
